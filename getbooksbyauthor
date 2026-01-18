@@ -1,0 +1,8 @@
+curl http://localhost:5000/author/Honoré%20de%20Balzac
+[
+    {
+        "author": "Honoré de Balzac",
+        "title": "Le Père Goriot",
+        "reviews": {}
+    }
+]                                            
