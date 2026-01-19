@@ -38,10 +38,11 @@ public_users.get('/',function (req, res) {
 // Task 2 -Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
-  // let book = books.filter((book) => {
-  //   return (book === req.params.isbn);
-  // })
-  return res.status(200).send(JSON.stringify(books[req.params.isbn],null,4));
+  let book = booksArr[req.params.isbn];
+  if(!book){
+    return res.status(404).json({message: "Book not found"});
+  }
+  return res.status(200).send(JSON.stringify(book,null,4));
  });
   
 // Get book details based on author
@@ -51,6 +52,9 @@ public_users.get('/author/:author',function (req, res) {
   let book = booksArr.filter((book) => {
     return (book.author.toLowerCase().normalize(('NFC')) === req.params.author.toLowerCase().normalize('NFC'));
   })
+  if(book.length === 0){
+    return res.status(404).json({message: "Book not found"});
+  }
   return res.status(200).send(JSON.stringify(book,null,4));
 });
 
@@ -61,6 +65,9 @@ public_users.get('/title/:title',function (req, res) {
   let book = booksArr.filter((book) => {
     return (book.title.trim().toLowerCase() === req.params.title.trim().toLowerCase());
   })
+  if(book.length === 0){
+    return res.status(404).json({message: "Book not found"});
+  }
   return res.status(200).send(JSON.stringify(book,null,4));
 });
 
@@ -68,7 +75,12 @@ public_users.get('/title/:title',function (req, res) {
 public_users.get('/review/:isbn',function (req, res) {
   //Write your code here
   //return res.status(300).json({message: "Yet to be implemented"});
-  return res.status(200).send(JSON.stringify(books[req.params.isbn].reviews,null,4));
+  let book = booksArr[req.params.isbn];
+
+  if(!book){
+    return res.status(404).json({message: "Book not found"});
+  }
+  return res.status(200).send(JSON.stringify(book,null,4));
 });
 
 // Task 10 - Get book with async axios 
